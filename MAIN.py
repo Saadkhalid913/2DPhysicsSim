@@ -1,7 +1,7 @@
 import pygame
 import time
 from PygameClasses import Circle, rect
-g = float(0.05)
+g = float(0.4)
 
 # colors
 BLACK = (0, 0, 0)
@@ -30,16 +30,14 @@ def makeBorders(win, w, h):
     return [top, bottom, left, right]
 
 
-borders = makeBorders(win, 800, 600)
-
-
 B1 = Circle(win, WHITE, (400, 400), 25)
-B1.setVelocity([1, -1])
+B1.setVelocity([3, -8])
 B1.setAcceleration([0, g])
 B2 = Circle(win, WHITE, (200, 400), 25)
-B2.setVelocity([1, 2])
+B2.setVelocity([5, -5])
 B2.setAcceleration([0, g])
 
+borders = makeBorders(win, 800, 600)
 while True:
     win.fill((0, 0, 0))
     for item in borders:
@@ -52,5 +50,5 @@ while True:
     B2.draw()
     B2.move()
     B2.iscollision(borders + [B1])
-
+    time.sleep(0.01)
     pygame.display.update()

@@ -4,7 +4,7 @@ from math import *
 
 
 def getMag(arr):
-    #returns magnitude of a vector 
+    # returns magnitude of a vector
     mag = sqrt(arr[0]**2 + arr[1]**2)
     return mag
 
@@ -20,13 +20,17 @@ class Circle(PygameObject):
 
     def __init__(self, window, color, centre, radius):
         super().__init__(window, color)
+
+        # shape attributes
         self.radius = radius
         self.centre = np.array([centre[0], centre[1]], dtype=float)
+
+        # movement attrubutes
         self.velocity = np.array([0, 0], dtype=float)
         self.acceleration = np.array([0, 0], dtype=float)
 
         # interaction with enviornment
-        self.Bounce = 0.75
+        self.Bounce = 0.875
 
     def draw(self):
         pygame.draw.circle(self.window, self.color,
@@ -36,8 +40,6 @@ class Circle(PygameObject):
         self.centre += self.velocity
         self.draw()
         self.velocity = self.velocity + self.acceleration
-
-
 
     def setVelocity(self, v: list):
         self.velocity = np.array(v)
@@ -81,17 +83,15 @@ class Circle(PygameObject):
         else:
             raise ValueError
 
-   
-
     def iscollision(self, objs):
         for obj in objs:
 
             if not isinstance(obj, rect):
-                upper = (getMag(self.velocity) + getMag(obj.velocity)) + 10
+                upper = getMag(self.velocity) + getMag(obj.velocity)
                 lower = -upper
                 obj = obj.rect
             else:
-                upper = getMag(self.velocity) + 10
+                upper = getMag(self.velocity) + 5
                 lower = -upper
 
             if self.rect.colliderect(obj):
@@ -106,10 +106,8 @@ class Circle(PygameObject):
                 # sideways collisions
                 elif lower <= self.min_X - (obj.x + obj.w) <= upper:
                     self.reflect(dir=0)
-                    print("left")
                 elif lower <= self.max_X - obj.x <= upper:
                     self.reflect(dir=0)
-                    print("right")
 
 
 class rect(pygame.Rect):
